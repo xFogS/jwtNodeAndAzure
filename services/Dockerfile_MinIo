@@ -1,0 +1,13 @@
+# Используем официальный образ MinIO
+FROM minio/minio
+# Устанавливаем рабочую директорию
+WORKDIR /data
+# Устанавливаем переменные окружения для MinIO
+# Эти значения можно позже переопределить через команду `docker run`
+ENV MINIO_ROOT_USER=root \
+    MINIO_ROOT_PASSWORD=password
+# Открываем порты для доступа к MinIO (API и консоль)
+EXPOSE 9000 9001
+# Команда для запуска MinIO сервера с консолью управления
+# `/data` - директория для хранения данных
+CMD ["minio", "server", "/data", "--console-address", ":9001"]
