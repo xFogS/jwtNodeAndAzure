@@ -1,0 +1,78 @@
+services:
+
+#  pv321.sqlserver:
+#    image: mcr.microsoft.com/mssql/server:2019-latest
+#    ports:
+#      - "1433:1433"
+#    environment:
+#      SA_PASSWORD: "P@ssw0rd"  # Укажите надежный пароль для SA
+#      ACCEPT_EULA: "Y"                     # Принимаем лицензионное соглашение
+#  pv321.postgres:
+#    image: postgres:latest
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      POSTGRES_USER: root                # Имя пользователя для PostgreSQL
+#      POSTGRES_PASSWORD: password         # Пароль для PostgreSQL
+#      POSTGRES_DB: mydatabase             # Название создаваемой базы данных
+#  pv321.adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - "8090:8080"
+#    environment:
+#      ADMINER_DEFAULT_SERVER: pv321.postgres   # Указываем контейнер PostgreSQL как сервер по умолчанию
+#  pv321.redis:
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"
+#  pv321.mongodb:
+#    image: mongo:latest
+#    ports:
+#      - "27018:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: password
+#  pv321.mongo-express:
+#    image: mongo-express
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+#      ME_CONFIG_MONGODB_URL: mongodb://root:password@pv321.mongodb:27017/
+#      ME_CONFIG_BASICAUTH: false
+#    ports:
+#      - "8089:8081"
+  pv321.storage:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./volumes/store:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+#
+#  pv321.mariaDb:
+#    # (in) 3306
+#    image: mariadb:latest
+#    ports:
+#      - "3310:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: password
+
+  pv321.mySql:
+    # (in) 3306
+    image: mysql:latest
+    ports:
+      - "3320:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  pv321.pma:
+    image: phpmyadmin
+    ports:
+      - "8088:80"
+    environment:
+      - PMA_ARBITRARY=1
